@@ -1,24 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Controllers/kalkulator_controller.dart';
 import 'package:flutter_application_1/components/custom_Button.dart';
 import 'package:flutter_application_1/components/custom_TextField.dart';
 import 'package:flutter_application_1/components/custom_TextView.dart';
+import 'package:get/get.dart';
 
-class CalkulatorPage extends StatefulWidget {
-  const CalkulatorPage({super.key});
+class CalkulatorPage extends StatelessWidget {
+  CalkulatorPage({super.key});
 
-  @override
-  State<CalkulatorPage> createState() => _CalkulatorPageState();
-}
+  final KalkulatorController controller = Get.put(KalkulatorController());
 
-class _CalkulatorPageState extends State<CalkulatorPage> {
-  final TextEditingController number1Controller = TextEditingController();
-  final TextEditingController number2Controller = TextEditingController();
+  void _hitung(
+    BuildContext context,
+    void Function(double, double) operasi, {
+    bool pembagian = false,
+  }) {
+    final angka1 = double.tryParse(controller.txtangka1.text);
+    final angka2 = double.tryParse(controller.txtangka2.text);
 
-  @override
-  void dispose() {
-    number1Controller.dispose();
-    number2Controller.dispose();
-    super.dispose();
+    if (angka1 == null || angka2 == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Masukkan kedua angka terlebih dahulu')),
+      );
+      return;
+    }
+
+    if (pembagian && angka2 == 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Angka pembagi tidak boleh nol')),
+      );
+      return;
+    }
+
+    operasi(angka1, angka2);
   }
 
   @override
@@ -40,7 +54,7 @@ class _CalkulatorPageState extends State<CalkulatorPage> {
             margin: EdgeInsets.all(10),
             child: CustomTextfield(
               myHint: 'input number 1',
-              txtcontroller: number1Controller,
+              txtcontroller: controller.txtangka1,
             ),
           ),
 
@@ -48,7 +62,7 @@ class _CalkulatorPageState extends State<CalkulatorPage> {
             margin: EdgeInsets.all(10),
             child: CustomTextfield(
               myHint: 'input number 2',
-              txtcontroller: number2Controller,
+              txtcontroller: controller.txtangka2,
             ),
           ),
 
@@ -57,24 +71,31 @@ class _CalkulatorPageState extends State<CalkulatorPage> {
             children: [
               CustomButton(
                 text: '+',
-                onPressed: () {},
+                onPressed: () => _hitung(context, controller.tambah),
               ),
 
               CustomButton(
                 text: '-',
-                onPressed: () {},
+                onPressed: () => _hitung(context, controller.kurang),
               ),
 
               CustomButton(
                 text: '*',
-                onPressed: () {},
+                onPressed: () => _hitung(context, controller.kali),
               ),
 
               CustomButton(
                 text: '/',
-                onPressed: () {},
+                onPressed: () =>
+                    _hitung(context, controller.bagi, pembagian: true),
               ),
             ],
+          ),
+          Obx(
+            () => CustomTextview(
+              text: 'hasil ${controller.hasilHitung.value}',
+              style: const TextStyle(fontSize: 20),
+            ),
           ),
         ],
       ),

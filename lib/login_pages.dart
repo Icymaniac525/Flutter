@@ -23,7 +23,7 @@ class _LoginPagesState extends State<LoginPages> {
       body: Column(
         children: [
           CustomTextview(
-            text: "Welcome to application$statusLogin",
+            text: "Welcome to application" + statusLogin,
             style: TextStyle(
               fontSize: 20,
               color: Colors.blue,
