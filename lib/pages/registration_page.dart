@@ -20,6 +20,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final TextEditingController txtUsername = TextEditingController();
   final TextEditingController txtEmail = TextEditingController();
   final TextEditingController txtPassword = TextEditingController();
+  final TextEditingController txtNoWA = TextEditingController();
+  final TextEditingController txtNamaLengkap = TextEditingController();
   String? jenisKelamin;
   String? agama;
 
@@ -35,6 +37,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
   @override
   void dispose() {
     txtUsername.dispose();
+    txtNamaLengkap.dispose();
+    txtNoWA.dispose();
     txtEmail.dispose();
     txtPassword.dispose();
     super.dispose();
@@ -68,6 +72,30 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         child: CustomTextfield(
                           myHint: "Input Username",
                           txtcontroller: txtUsername,
+                        ),
+                      ),
+                    ],
+                  ),
+                  TableRow(
+                    decoration: const BoxDecoration(color: softGreen),
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: CustomTextfield(
+                          myHint: "Input Nama Lengkap",
+                          txtcontroller: txtNamaLengkap,
+                        ),
+                      ),
+                    ],
+                  ),
+                  TableRow(
+                    decoration: const BoxDecoration(color: softGreen),
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: CustomTextfield(
+                          myHint: "Input No WA",
+                          txtcontroller: txtNoWA,
                         ),
                       ),
                     ],
@@ -140,7 +168,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               Routes.confirmRegistration,
                               arguments: {
                                 'username': txtUsername.text,
-                                'nama_lengkap': 'admin',
+                                'nama_lengkap': txtNamaLengkap.text,
+                                'noWA': txtNoWA.text,
                                 'email': txtEmail.text,
                                 'password': txtPassword.text,
                                 'jenis_kelamin': jenisKelamin,

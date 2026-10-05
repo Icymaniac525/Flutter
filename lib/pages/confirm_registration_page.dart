@@ -92,6 +92,16 @@ class ConfirmRegistrationPage extends StatelessWidget {
                     label: "Username",
                     value: controller.username,
                   ),
+                  _detailRow(
+                    icon: Icons.person_outline,
+                    label: "Nama Lengkap",
+                    value: controller.namaLengkap,
+                  ),
+                  _detailRow(
+                    icon: Icons.person_outline,
+                    label: "No WA",
+                    value: controller.noWA,
+                  ),
                   const Divider(height: 1),
                   _detailRow(
                     icon: Icons.wc,
